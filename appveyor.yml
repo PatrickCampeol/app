@@ -1,0 +1,15 @@
+version: 1.0.{build}
+image: Visual Studio 2019
+
+build_script:
+  - set PATH=C:\msys64\mingw64\bin;%PATH%
+  - pacman -Syu --noconfirm
+  - pacman -S --noconfirm mingw-w64-x86_64-toolchain cmake make
+  - mkdir build
+  - cd build
+  - cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DBOOST_ROOT=C:/boost -DOPENSSL_ROOT_DIR=C:/OpenSSL-Win64 ..
+  - mingw32-make
+
+artifacts:
+  - path: build\*.exe
+    name: Executables
